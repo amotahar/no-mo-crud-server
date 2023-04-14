@@ -22,32 +22,18 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
-
-// async function run() {
-//   try {
-//     // Connect the client to the server	(optional starting in v4.7)
-//     await client.connect();
-//     // Send a ping to confirm a successful connection
-//     await client.db("admin").command({ ping: 1 });
-//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//     await client.close();
-//   }
-// }
-// run().catch(console.dir);
-
-
 async function run(){
   
   try{
-    const userCollection = client.db("nodeMongoCrud").collection("users");
-    const user = {
-      name: "ok",
-      email: "ok@test.com"
-    }
-    const result = await userCollection.insertOne(user);
-    console.log(result);
+    const userCollection = client.db('nodeMongoCrud').collection('users');
+
+    app.post('/users', async(req, res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    })
+   
   }
   
   finally{
@@ -57,7 +43,7 @@ async function run(){
 
 run().catch(err=>console.log(err))
   
-app.get('/', (req, res, next) => {
+app.get('/', (req, res,) => {
   res.send('Hello CRUD!');
 })
 
