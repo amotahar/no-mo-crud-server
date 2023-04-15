@@ -33,6 +33,12 @@ async function run(){
         const user = await cursor.toArray();
         res.send(user);
     })
+    app.get('/users/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const user = await userCollection.findOne(query);
+      res.send(user);
+  })
 
     app.post('/users', async(req, res) => {
       const user = req.body;
